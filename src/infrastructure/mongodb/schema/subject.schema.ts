@@ -2,22 +2,24 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Exclude } from 'class-transformer';
 
-export type UserDocument = User & Document;
+export type SubjectDocument = Subject & Document;
 
 @Schema()
-export class User {
-  @Prop()
+export class Subject {
+  @Prop({ required: true })
   firstName: string;
 
-  @Prop()
+  @Prop({ required: true })
   lastName: string;
+
+  @Prop({ unique: true })
+  socialSecurityNumber: string;
 
   @Prop({ unique: true })
   email: string;
 
-  @Prop()
-  @Exclude()
-  password: string;
+  @Prop({ unique: true })
+  phone: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const SubjectSchema = SchemaFactory.createForClass(Subject);
