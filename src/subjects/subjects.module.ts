@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SubjectsService } from './subjects.service';
 import { SubjectsController } from './subjects.controller';
 import { SubjectSchema } from './schema/subject.schema';
-import { Subject } from './entities/subject.entity';
+import { AddressSchema } from './schema/address.schema';
 
 @Module({
   imports: [

@@ -34,4 +34,8 @@ export class SubjectsService {
   async remove(id: string): Promise<Subject> {
     return this.subjectModel.findByIdAndDelete(id);
   }
+
+  async findAllAddress(): Promise<Array<Subject>> {
+    return this.subjectModel.find().select('address');
+  }
 }

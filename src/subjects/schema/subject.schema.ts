@@ -13,8 +13,11 @@ export class Subject {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop({ unique: true })
+  @Prop({ unique: true, required: true })
   socialSecurityNumber: string;
+
+  @Prop({ required: true })
+  birthDate: string;
 
   @Prop({ unique: true })
   email: string;

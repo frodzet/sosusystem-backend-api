@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { SubjectsModule } from './subjects/subjects.module';
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot(Keys.urlKEY), SubjectsModule],
+  imports: [MongooseModule.forRoot(Keys.urlKEY), UsersModule, SubjectsModule],
   controllers: [AppController],
   providers: [AppService],
 })

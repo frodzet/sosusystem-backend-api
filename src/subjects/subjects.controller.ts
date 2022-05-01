@@ -29,13 +29,21 @@ export class SubjectsController {
     return await this.subjectsService.findOne(param.id);
   }
 
+  @Get(':id/address')
+  async findAllAddress(): Promise<Array<Subject>> {
+    return await this.subjectsService.findAllAddress();
+  }
+
   @Post()
   async create(@Body() subject: CreateSubjectDto): Promise<Subject> {
     return await this.subjectsService.create(subject);
   }
 
   @Put(':id')
-  async update(@Param() param, @Body() subject: UpdateSubjectDto): Promise<Subject> {
+  async update(
+    @Param() param,
+    @Body() subject: UpdateSubjectDto,
+  ): Promise<Subject> {
     return await this.subjectsService.update(param.id, subject);
   }
 
