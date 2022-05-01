@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { Subject } from './entities/subject.entity';
 
 @Injectable()
 export class SubjectsService {
-  create(createSubjectDto: CreateSubjectDto) {
-    return 'This action adds a new subject';
+  constructor(@InjectModel('Subject') private subjectModel: Model<Subject>) {}
+
+  async findAll(): Promise<Array<Subject>> {
+    return this.subjectModel.find().select('-password');
   }
 
-  findAll() {
-    return `This action returns all subjects`;
+  async findOne(id: string): Promise<Subject> {
+    return this.subjectModel
+      .findOne({
+        _id: id,
+      })
+      .select('-password');
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subject`;
+  async create(subject: CreateSubjectDto): Promise<Subject> {
+    const newSubject = new this.subjectModel(subject).populate('address');
+
+    return await newSubject;
   }
 
-  update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return `This action updates a #${id} subject`;
+  async update(id: string, subject: UpdateSubjectDto): Promise<Subject> {
+    return this.subjectModel.findByIdAndUpdate(id, subject, { new: true });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subject`;
+  async remove(id: string): Promise<Subject> {
+    return this.subjectModel.findByIdAndDelete(id);
   }
 }

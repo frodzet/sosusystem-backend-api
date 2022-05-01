@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Exclude } from 'class-transformer';
+import { Type } from 'class-transformer';
+import { Address, AddressSchema } from './address.schema';
 
 export type SubjectDocument = Subject & Document;
 
@@ -20,6 +21,10 @@ export class Subject {
 
   @Prop({ unique: true })
   phone: string;
+
+  @Prop({ type: AddressSchema })
+  @Type(() => Address)
+  address: Address;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);

@@ -1,34 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseInterceptors,
+  Put,
+} from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import MongooseClassSerializerInterceptor from '../infrastructure/mongodb/utils/mongooseClassSerializer.interceptor';
+import { Subject } from './entities/subject.entity';
 
 @Controller('subjects')
+@UseInterceptors(MongooseClassSerializerInterceptor(Subject))
 export class SubjectsController {
-  constructor(private readonly subjectsService: SubjectsService) {}
-
-  @Post()
-  create(@Body() createSubjectDto: CreateSubjectDto) {
-    return this.subjectsService.create(createSubjectDto);
-  }
+  constructor(private subjectsService: SubjectsService) {}
 
   @Get()
-  findAll() {
-    return this.subjectsService.findAll();
+  async findAll(): Promise<Array<Subject>> {
+    return await this.subjectsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.subjectsService.findOne(+id);
+  async findOne(@Param() param): Promise<Subject> {
+    return await this.subjectsService.findOne(param.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
-    return this.subjectsService.update(+id, updateSubjectDto);
+  @Post()
+  async create(@Body() subject: CreateSubjectDto): Promise<Subject> {
+    return await this.subjectsService.create(subject);
+  }
+
+  @Put(':id')
+  async update(@Param() param, @Body() subject: UpdateSubjectDto): Promise<Subject> {
+    return await this.subjectsService.update(param.id, subject);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.subjectsService.remove(+id);
+  async remove(@Param() param) {
+    return await this.subjectsService.remove(param.id);
   }
 }
