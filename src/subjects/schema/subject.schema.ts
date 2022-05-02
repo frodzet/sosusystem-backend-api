@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Type } from 'class-transformer';
+import { Document, ObjectId } from "mongoose";
+import { Transform, Type } from "class-transformer";
 import { Address, AddressSchema } from './address.schema';
+import { HealthCondition, HealthConditionSchema } from './health/health-condition.schema';
 
 export type SubjectDocument = Subject & Document;
 
@@ -13,21 +14,25 @@ export class Subject {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true })
   socialSecurityNumber: string;
 
-  @Prop({ required: true })
+  @Prop()
   birthDate: string;
 
-  @Prop({ unique: true })
+  @Prop()
   email: string;
 
-  @Prop({ unique: true })
+  @Prop()
   phone: string;
 
   @Prop({ type: AddressSchema })
   @Type(() => Address)
   address: Address;
+
+  @Prop( { type: HealthConditionSchema })
+  @Type(() => HealthCondition)
+  healthCondition: HealthCondition;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);

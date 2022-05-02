@@ -30,8 +30,8 @@ export class SubjectsController {
   }
 
   @Get(':id/address')
-  async findAllAddress(): Promise<Array<Subject>> {
-    return await this.subjectsService.findAllAddress();
+  async getAddress(): Promise<Array<Subject>> {
+    return await this.subjectsService.getAddress();
   }
 
   @Post()

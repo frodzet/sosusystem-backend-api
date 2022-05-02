@@ -22,9 +22,12 @@ export class SubjectsService {
   }
 
   async create(subject: CreateSubjectDto): Promise<Subject> {
-    const newSubject = new this.subjectModel(subject).populate('address');
+    const newSubject = await new this.subjectModel(subject);
+    await newSubject.populate('address');
+    await newSubject.populate('healthCondition');
+    //await newSubject.populate('functionLevel');
 
-    return await newSubject;
+    return newSubject.save();
   }
 
   async update(id: string, subject: UpdateSubjectDto): Promise<Subject> {
@@ -35,7 +38,7 @@ export class SubjectsService {
     return this.subjectModel.findByIdAndDelete(id);
   }
 
-  async findAllAddress(): Promise<Array<Subject>> {
+  async getAddress(): Promise<Array<Subject>> {
     return this.subjectModel.find().select('address');
   }
 }
