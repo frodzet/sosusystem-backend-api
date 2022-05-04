@@ -52,4 +52,14 @@ export class SubjectsController {
   async getAddress(@Param() param): Promise<Address> {
     return await this.subjectsService.getAddress(param.id);
   }
+
+  @Put(':id/address')
+  async setAddress(
+    @Param() param,
+    @Body() subject: UpdateSubjectDto,
+  ): Promise<Address> {
+    const address = await this.subjectsService.setAddress(param.id, subject);
+    console.log(address.city);
+    return address;
+  }
 }

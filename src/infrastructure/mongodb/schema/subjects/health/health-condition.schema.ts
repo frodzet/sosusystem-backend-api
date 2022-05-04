@@ -12,4 +12,5 @@ export class HealthCondition {
   category: Category[];
 }
 
-export const HealthConditionSchema = SchemaFactory.createForClass(HealthCondition);
+export const HealthConditionSchema =
+  SchemaFactory.createForClass(HealthCondition);

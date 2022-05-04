@@ -6,11 +6,7 @@ import { UserSchema } from '../infrastructure/mongodb/schema/users/user.schema';
 import { User } from '../core/entities/user.entity';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'User', schema: UserSchema },
-    ]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
   controllers: [UsersController],
   providers: [UsersService],
 })

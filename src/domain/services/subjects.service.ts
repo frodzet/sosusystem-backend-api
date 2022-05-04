@@ -39,4 +39,10 @@ export class SubjectsService {
   async getAddress(id: string): Promise<Address> {
     return (await this.subjectModel.findById(id)).address;
   }
+
+  async setAddress(id: string, subject: UpdateSubjectDto): Promise<Address> {
+    return (
+      await this.subjectModel.findByIdAndUpdate(id, subject, { new: true })
+    ).address;
+  }
 }

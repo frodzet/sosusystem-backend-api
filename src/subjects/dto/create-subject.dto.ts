@@ -1,5 +1,5 @@
 import { Address } from '../../infrastructure/mongodb/schema/subjects/address.schema';
-import { HealthCondition } from "../../infrastructure/mongodb/schema/subjects/health/health-condition.schema";
+import { HealthCondition } from '../../infrastructure/mongodb/schema/subjects/health/health-condition.schema';
 
 export class CreateSubjectDto {
   firstName: string;
@@ -8,5 +8,5 @@ export class CreateSubjectDto {
   email: string;
   phone: string;
   address: Address;
-  healthCondition: HealthCondition;
+  condition: HealthCondition;
 }
