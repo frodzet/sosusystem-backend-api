@@ -14,7 +14,6 @@ export class Address {
 
   @Prop({ required: true })
   postCode: string;
-
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId } from "mongoose";
-import { Transform, Type } from "class-transformer";
+import { Document, ObjectId } from 'mongoose';
+import { Transform, Type } from 'class-transformer';
 import { Address, AddressSchema } from './address.schema';
-import { HealthCondition, HealthConditionSchema } from './health/health-condition.schema';
+import { HealthCondition, HealthConditionSchema } from "./health/health-condition.schema";
+import * as Mongoose from "mongoose";
 
 export type SubjectDocument = Subject & Document;
 
-@Schema()
+@Schema({ strict: false})
 export class Subject {
   @Prop({ required: true })
   firstName: string;
@@ -30,9 +31,12 @@ export class Subject {
   @Type(() => Address)
   address: Address;
 
-  @Prop( { type: HealthConditionSchema })
-  @Type(() => HealthCondition)
-  healthCondition: HealthCondition;
+  @Prop({ type: Mongoose.Types.ObjectId, ref: 'subjects/health' })
+  healthID: Mongoose.Types.ObjectId;
+
+  randomObj: null;
 }
 
+
+//
 export const SubjectSchema = SchemaFactory.createForClass(Subject);

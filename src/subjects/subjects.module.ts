@@ -1,19 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SubjectsService } from './subjects.service';
+import { SubjectsService } from '../domain/services/subjects.service';
 import { SubjectsController } from './subjects.controller';
-import { SubjectSchema } from './schema/subject.schema';
-import { AddressSchema } from './schema/address.schema';
-import { HealthConditionSchema } from './schema/health/health-condition.schema';
-import { FunctionLevelSchema } from './schema/health/topics/function-level.schema';
+import { SubjectSchema } from '../infrastructure/mongodb/schema/subjects/subject.schema';
+import { AddressSchema } from "../infrastructure/mongodb/schema/subjects/address.schema";
+import { SubjectHealthSchema } from "../infrastructure/mongodb/schema/subjects/health/subject.health";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'Subject', schema: SubjectSchema },
-      { name: 'Address', schema: AddressSchema },
-      { name: 'HealthCondition', schema: HealthConditionSchema },
-      { name: 'HealthCondition/FunctionLevel', schema: FunctionLevelSchema },
+      { name: 'Subject', schema: SubjectSchema},
+
+      { name: 'subjects/health', schema: SubjectHealthSchema, collection: "subjects/health"},
     ]),
   ],
   controllers: [SubjectsController],

@@ -8,11 +8,11 @@ import {
   UseInterceptors,
   Put,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService } from '../domain/services/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import MongooseClassSerializerInterceptor from '../infrastructure/mongodb/utils/mongooseClassSerializer.interceptor';
-import { User } from './entities/user.entity';
+import { User } from '../core/entities/user.entity';
 
 @Controller('users')
 @UseInterceptors(MongooseClassSerializerInterceptor(User))

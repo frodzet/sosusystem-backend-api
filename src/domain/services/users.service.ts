@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
+import { UpdateUserDto } from '../../users/dto/update-user.dto';
+import { User } from '../../core/entities/user.entity';
+import { IUserRepository } from '../repositories/users.repository.interface';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements IUserRepository {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
   async findAll(): Promise<Array<User>> {
