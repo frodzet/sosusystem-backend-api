@@ -3,21 +3,19 @@ import { Document } from 'mongoose';
 import { Transform, Type } from 'class-transformer';
 import { Address, AddressSchema } from './address.schema';
 import * as Mongoose from 'mongoose';
+import { HealthCondition, HealthConditionSchema } from "./health/health-condition.schema";
 
 export type SubjectDocument = Subject & Document;
 
 @Schema()
 export class Subject {
-  @Transform(({ value }) => value.toString())
-  _id: Mongoose.Types.ObjectId;
-
-  @Prop({ required: true })
+  @Prop()
   firstName: string;
 
-  @Prop({ required: true })
+  @Prop()
   lastName: string;
 
-  @Prop({ required: true })
+  @Prop()
   socialSecurityNumber: string;
 
   @Prop()
@@ -32,6 +30,10 @@ export class Subject {
   @Prop({ type: AddressSchema })
   @Type(() => Address)
   address: Address;
+
+  @Prop( { type: HealthConditionSchema })
+  @Type(() => HealthCondition )
+  healthCondition: HealthCondition;
 }
 
 //

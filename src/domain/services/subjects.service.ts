@@ -5,12 +5,10 @@ import { CreateSubjectDto } from '../../subjects/dto/create-subject.dto';
 import { Subject } from '../../core/entities/subject.entity';
 import { UpdateSubjectDto } from '../../subjects/dto/update-subject.dto';
 import { Address } from '../../infrastructure/mongodb/schema/subjects/address.schema';
-import { SubjectSchema } from '../../infrastructure/mongodb/schema/subjects/subject.schema';
 
 @Injectable()
 export class SubjectsService {
-  constructor(
-    @InjectModel('Subject') private subjectModel: Model<Subject>) {}
+  constructor(@InjectModel('Subject') private subjectModel: Model<Subject>) {}
 
   async findAll(): Promise<Array<Subject>> {
     return this.subjectModel.find().select('-password');
@@ -25,9 +23,9 @@ export class SubjectsService {
   }
 
   async create(subject: CreateSubjectDto): Promise<Subject> {
-    const newSubject = await new this.subjectModel(subject)
-      .populate('address')
-    return newSubject.save();
+    const newSubject = await new this.subjectModel(subject);
+
+    return await newSubject.save();
   }
 
   async update(id: string, subject: UpdateSubjectDto): Promise<Subject> {
