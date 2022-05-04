@@ -3,6 +3,6 @@ require('dotenv').config();
 export class Keys {
   static userName: string = process.env.MONGODB_USER_NAME;
   static password: string = process.env.MONGODB_USER_PASSWORD;
-  static dbName: string = process.env.MONGODB_DB_NAME;
+  static dbName: string = process.env.MONGODB_DB_NAME2;
   static urlKEY = `mongodb+srv://${this.userName}:${this.password}@sosu-db.qc7k5.mongodb.net/${this.dbName}?retryWrites=true&w=majority`;
 }

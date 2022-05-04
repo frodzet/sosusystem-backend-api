@@ -3,16 +3,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SubjectsService } from '../domain/services/subjects.service';
 import { SubjectsController } from './subjects.controller';
 import { SubjectSchema } from '../infrastructure/mongodb/schema/subjects/subject.schema';
-import { AddressSchema } from "../infrastructure/mongodb/schema/subjects/address.schema";
-import { SubjectHealthSchema } from "../infrastructure/mongodb/schema/subjects/health/subject.health";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'Subject', schema: SubjectSchema},
-
-      { name: 'subjects/health', schema: SubjectHealthSchema, collection: "subjects/health"},
-    ]),
+      { name: 'Subject', schema: SubjectSchema }]),
   ],
   controllers: [SubjectsController],
   providers: [SubjectsService],

@@ -4,7 +4,7 @@ import { UpdateSubjectDto } from "../../subjects/dto/update-subject.dto";
 import { Address } from "../../infrastructure/mongodb/schema/subjects/address.schema";
 
 export interface ISubjectRepository {
-  create(subject: CreateSubjectDto): Promise<Subject>;
+  create(subject: CreateSubjectDto, address: Address): Promise<Subject>;
 
   findOne(id: string): Promise<Subject>;
 

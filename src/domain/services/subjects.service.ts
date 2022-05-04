@@ -2,37 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSubjectDto } from '../../subjects/dto/create-subject.dto';
-import { UpdateSubjectDto } from '../../subjects/dto/update-subject.dto';
 import { Subject } from '../../core/entities/subject.entity';
-import { ISubjectRepository } from '../repositories/subjects.repository.interface';
+import { UpdateSubjectDto } from '../../subjects/dto/update-subject.dto';
 import { Address } from '../../infrastructure/mongodb/schema/subjects/address.schema';
-import { SubjectHealth } from "../../infrastructure/mongodb/schema/subjects/health/subject.health";
+import { SubjectSchema } from '../../infrastructure/mongodb/schema/subjects/subject.schema';
 
 @Injectable()
-export class SubjectsService implements ISubjectRepository {
-  constructor(@InjectModel('Subject') private subjectModel: Model<Subject>,
-              @InjectModel('subjects/health') private healthModel: Model<SubjectHealth>) {}
+export class SubjectsService {
+  constructor(
+    @InjectModel('Subject') private subjectModel: Model<Subject>) {}
 
   async findAll(): Promise<Array<Subject>> {
     return this.subjectModel.find().select('-password');
   }
 
-  async findOne(id: string): Promise<any> {
-    return  this.subjectModel
+  async findOne(id: string): Promise<Subject> {
+    return this.subjectModel
       .findOne({
         _id: id,
-      });
-  }
-  async findHealth(id: string): Promise<any> {
-    return this.healthModel.findOne({
-      _id: id,
-    });
+      })
+      .select('-password');
   }
 
   async create(subject: CreateSubjectDto): Promise<Subject> {
-    const newSubject = new this.subjectModel(subject);
-
-    return await newSubject.save();
+    const newSubject = await new this.subjectModel(subject)
+      .populate('address')
+    return newSubject.save();
   }
 
   async update(id: string, subject: UpdateSubjectDto): Promise<Subject> {
@@ -41,5 +36,9 @@ export class SubjectsService implements ISubjectRepository {
 
   async remove(id: string): Promise<Subject> {
     return this.subjectModel.findByIdAndDelete(id);
+  }
+
+  async getAddress(id: string): Promise<Address> {
+    return (await this.subjectModel.findById(id)).address;
   }
 }
